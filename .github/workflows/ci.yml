@@ -1,0 +1,32 @@
+# CI - build da API + checagem do frontend (NÃO faz deploy do Pages)
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  frontend-check:
+    name: Validar frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Arquivos essenciais
+        run: |
+          test -f frontend/index.html
+          test -f docs/index.html
+          test -f frontend/js/config.js
+          echo "Frontend OK"
+
+  backend-build:
+    name: Build API C#
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet restore backend/ConectaComunidade.Api.csproj
+      - run: dotnet build backend/ConectaComunidade.Api.csproj --no-restore -c Release

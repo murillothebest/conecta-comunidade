@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conecta Comunidade</title>
+  <script>
+    // Redireciona para login ou painel conforme sessão
+    const token = localStorage.getItem('cc_token');
+    window.location.replace(token ? 'painel.html' : 'login.html');
+  </script>
+</head>
+<body>
+  <p>Carregando…</p>
+</body>
+</html>

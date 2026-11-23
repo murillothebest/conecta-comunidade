@@ -1,0 +1,59 @@
+# Pipeline Azure DevOps — build e publicação da API C#
+# Importe este arquivo no Azure DevOps (Pipelines → New pipeline → Existing YAML)
+
+trigger:
+  branches:
+    include:
+      - main
+      - master
+  paths:
+    include:
+      - backend/*
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  project: 'backend/ConectaComunidade.Api.csproj'
+
+stages:
+- stage: Build
+  displayName: Build API
+  jobs:
+  - job: BuildJob
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '8.0.x'
+
+    - task: DotNetCoreCLI@2
+      displayName: Restore
+      inputs:
+        command: 'restore'
+        projects: '$(project)'
+
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: 'build'
+        projects: '$(project)'
+        arguments: '--configuration $(buildConfiguration) --no-restore'
+
+    - task: DotNetCoreCLI@2
+      displayName: Publish
+      inputs:
+        command: 'publish'
+        projects: '$(project)'
+        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/api'
+        publishWebProjects: false
+        zipAfterPublish: true
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)/api'
+        artifactName: 'drop-api'
+
+# Stage de Deploy: conecte ao Azure App Service no portal do Azure DevOps
+# (Pipelines → Edit → add task "Azure App Service deploy" apontando para o artifact drop-api)

@@ -1,0 +1,23 @@
+# Blueprint opcional do Render (Web Service + variáveis)
+# Você também pode criar o serviço pelo painel sem este arquivo.
+
+services:
+  - type: web
+    name: conecta-comunidade-api
+    runtime: docker
+    rootDir: backend
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__Default
+        sync: false
+      - key: Jwt__Key
+        generateValue: true
+      - key: Jwt__Issuer
+        value: ConectaComunidade
+      - key: Jwt__Audience
+        value: ConectaComunidadeApp
+      - key: Cors__Origins__0
+        sync: false

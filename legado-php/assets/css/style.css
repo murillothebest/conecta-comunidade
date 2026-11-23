@@ -1,0 +1,82 @@
+/* Conecta Comunidade - estilos simples e acadêmicos */
+
+:root {
+    --cc-primary: #0d6efd;
+    --cc-bg: #f5f7fb;
+}
+
+body {
+    background: var(--cc-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main.container {
+    flex: 1;
+}
+
+.login-page {
+    background: linear-gradient(160deg, #e8f0ff 0%, #f5f7fb 55%, #ffffff 100%);
+}
+
+.card-stat {
+    border: 0;
+    box-shadow: 0 0.25rem 0.75rem rgba(13, 110, 253, 0.08);
+}
+
+.card-stat .display-6 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--cc-primary);
+}
+
+.navbar-brand {
+    letter-spacing: 0.2px;
+}
+
+.badge.status-planejada {
+    background-color: #6c757d;
+}
+
+.badge.status-em-andamento {
+    background-color: #0d6efd;
+}
+
+.badge.status-concluida {
+    background-color: #198754;
+}
+
+.badge.status-cancelada {
+    background-color: #dc3545;
+}
+
+.table thead th {
+    white-space: nowrap;
+}
+
+.card {
+    border-radius: 0.75rem;
+}
+
+.action-card {
+    border: 0;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(13, 110, 253, 0.12) !important;
+}
+
+.action-card .card-title {
+    line-height: 1.35;
+}
+
+.hero-banner {
+    background: linear-gradient(120deg, #0d6efd 0%, #3d8bfd 55%, #6ea8fe 100%);
+    color: #fff;
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+}

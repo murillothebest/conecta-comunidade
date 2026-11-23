@@ -1,0 +1,16 @@
+# Backend / secrets
+appsettings.Development.json
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# Frontend (nada sensível normalmente)
+.DS_Store
+Thumbs.db
+
+# Ambiente
+.env
+.env.*
+!.env.example

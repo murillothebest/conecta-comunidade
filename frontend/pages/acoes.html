@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ações - Conecta Comunidade</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="../painel.html">Conecta Comunidade</a>
+    <div class="navbar-nav ms-auto">
+      <a class="nav-link" href="../painel.html">Início</a>
+      <a class="nav-link active" href="acoes.html">Ações</a>
+      <a class="nav-link" href="usuarios.html">Usuários</a>
+    </div>
+  </div>
+</nav>
+<main class="container py-4">
+  <div class="d-flex justify-content-between mb-3">
+    <h1 class="h3 mb-0">Ações comunitárias</h1>
+    <a class="btn btn-primary" href="acao-form.html">Nova ação</a>
+  </div>
+  <div id="alert" class="alert d-none"></div>
+  <div class="card shadow-sm"><div class="table-responsive">
+    <table class="table table-hover mb-0 align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th><th>Título</th><th>Data</th><th>Categoria</th><th>Status</th>
+          <th>Participantes</th><th>Organizador</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div></div>
+</main>
+<script src="../js/config.js"></script>
+<script src="../js/api.js"></script>
+<script>
+  if (!Auth.requireLogin()) throw new Error('redirect');
+  (async () => {
+    const acoes = await api('/api/acoes');
+    document.getElementById('tbody').innerHTML = acoes.map(a => `
+      <tr>
+        <td>${a.idAcao}</td>
+        <td>${escapeHtml(a.titulo)}</td>
+        <td>${formatDateBr(a.data)}</td>
+        <td>${escapeHtml(a.categoria)}</td>
+        <td><span class="badge ${statusClass(a.status)}">${escapeHtml(a.status)}</span></td>
+        <td>${a.totalParticipantes}</td>
+        <td>${escapeHtml(a.organizador)}</td>
+        <td class="text-end text-nowrap">
+          <a class="btn btn-sm btn-outline-secondary" href="acao-detalhe.html?id=${a.idAcao}">Ver</a>
+          ${a.souDono ? `
+            <a class="btn btn-sm btn-outline-primary" href="acao-form.html?id=${a.idAcao}">Editar</a>
+            <a class="btn btn-sm btn-outline-danger" href="acao-excluir.html?id=${a.idAcao}">Excluir</a>` : ''}
+        </td>
+      </tr>`).join('') || '<tr><td colspan="8" class="text-center text-muted py-4">Nenhuma ação.</td></tr>';
+  })().catch(e => showAlert(document.getElementById('alert'), e.message, 'danger'));
+</script>
+</body>
+</html>
